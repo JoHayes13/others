@@ -1,0 +1,16 @@
+import pandas as pd
+
+ERA = "PER"
+data = pd.read_csv(ERA + ".csv")
+
+# data["MPG"] = data["MP"] / data["G"]
+# data = data.loc[(data.MP > 600) & (data.G > 15) & (data.MPG > 18)].sort_values(by="FGA", ascending=False)
+data = data.loc[(data.G > 15) & (data.MP > 18)].sort_values(by="FGA", ascending=False)
+
+TEAM_SHOOTING_OPTION = 3
+TeamOption = TEAM_SHOOTING_OPTION - 1
+
+Option = data.groupby(by=["Season", "Tm"])['Player', 'Pos', 'Age', 'MP', 'G', 'FGA', 'PTS',
+                                           'TRB', 'AST'].nth(TeamOption).reset_index()
+                                           
+Option.to_csv(ERA + "_Options.csv")
